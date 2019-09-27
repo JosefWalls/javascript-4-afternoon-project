@@ -30,7 +30,18 @@
 */
 
 //Code Here
+class Employee {
+  constructor(firstName, lastName, email, age){
+    this.first_name = firstName;
+    this.last_name = lastName;
+    this.email = email;
+    this.age = age;
+  }
 
+  makeWidget (){
+    return (this.first_name + " " + this.last_name + " Widget")
+  }
+}
 
 ////////// PROBLEM 2 //////////
 
@@ -49,7 +60,20 @@
 
 //Code Here
 
+class Manager extends Employee {
+  constructor(firstName, lastName, email, age, reports, hire, fire){
+    super(firstName, lastName, email, age);
+    this.reports = [];
+  }
 
+  hire(Employee){
+    this.reports.push(Employee)
+  }
+
+  fire(Employee){
+    this.reports.splice(Employee, 1)
+  }
+}
 ////////// PROBLEM 3 //////////
 
 /*
@@ -72,8 +96,35 @@
 */
 
 //Code Here
+class ProgressiveManager extends Manager {
+  constructor(firstName, lastName, email, age, reports, hire, fire, title, bonus){
+    super(firstName, lastName, email, age, reports);
+    this.title = "Not a manager";
+    this.bonus = 0;
+  }
+
+  hire(Employee){
+    this.reports.push(Employee);
+    if(this.reports.length  <= 3){
+      this.title = "Barely Manager";
+    } else if (this.reports.length <= 10){
+      this.title = "Mostly Manager";
+    } else if (this.reports.length <= 50){
+      this.title = "Manager";
+    } else if (this.reports.length  <= 100){
+      this.title = "Manager Plus";
+    } else {
+      this.title = "Bestest Manager"
+    }
+  }
+
+  fire(Employee){
+    this.reports.splice(Employee, 1);
+    this.bonus += 100;
+  }
 
 
+}
 
 ////////// PROBLEM 4 - Black Diamond //////////
 
@@ -100,4 +151,28 @@
 
 //Code Here
 
+class Machine {
+  constructor(widgets_made_count, wear_and_tear_count, needs_reboot){
+     this.widgets_made_count = 0;
+     this.wear_and_tear_count = 0;
+     this.needs_reboot =  false;
+  }
+  
+  makeWidgets(number){
+     this.widgets_made_count += number;
+     this.wear_and_tear_count += Math.floor(number / 50);
+    }
 
+  fixMachine(){
+    this.needs_reboot = true;
+  }
+
+  reboot(){
+    return () => {   
+      //console.log(this.wear_and_tear_count -= 10)
+      this.wear_and_tear_count -= 10;
+      this.needs_reboot = false;
+    }
+
+  }
+}
